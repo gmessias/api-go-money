@@ -10,18 +10,33 @@ import (
 
 func ReadAllCategories(c *gin.Context) {
 	var categories []models.Category
-	database.DB.Find(&categories)
-	c.JSON(200, categories)
+	result := database.DB.Find(&categories)
+
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Internal server error.",
+		})
+		return
+	}
+
+	if len(categories) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "No categories records found",
+		})
+	}
+
+	c.JSON(http.StatusOK, categories)
 }
 
 func ReadCategoryPerId(c *gin.Context) {
 	var category models.Category
-	id := c.Params.ByName("id")
-	database.DB.First(&category, id)
+	id := c.Param("id")
 
-	if category.ID == 0 {
+	result := database.DB.First(&category, id)
+
+	if result.Error != nil || result.RowsAffected == 0 {
 		c.JSON(http.StatusNotFound, gin.H{
-			"Status Not Found": "Category Id:" + id + "not found.",
+			"error": "Category with ID " + id + " not found.",
 		})
 		return
 	}
