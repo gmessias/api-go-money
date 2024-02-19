@@ -12,6 +12,6 @@ func GetAllCash(c *gin.Context) {
 func GetIdCash(c *gin.Context) {
 	movimentacao := c.Params.ByName("movimentacao")
 	c.JSON(200, gin.H{
-		movimentacao: movimentacao,
+		"movimentacao": movimentacao,
 	})
 }
