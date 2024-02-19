@@ -2,17 +2,15 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	handle "github.com/gmessias/api-go-money/handlers"
+	cash_routes "github.com/gmessias/api-go-money/routes/cash"
+	category_routes "github.com/gmessias/api-go-money/routes/category"
 )
 
 func HandleRequests() {
 	r := gin.Default()
 
-	r.GET("/cash", handle.ReadAllCash)
-	r.GET("/cash/:id", handle.ReadCashPerId)
-	r.POST("/cash", handle.CreateCash)
-	r.DELETE("/cash/:id", handle.DeleteCash)
-	r.PATCH("/cash/:id", handle.UpdateCash)
+	cash_routes.AllRoutes(r)
+	category_routes.AllRoutes(r)
 
 	r.Run(":8080")
 }
