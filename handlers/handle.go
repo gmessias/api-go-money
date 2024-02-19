@@ -1,17 +1,43 @@
 package handle
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
 
-func GetAllCash(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"id":   "1",
-		"nome": "Gabriel",
-	})
+	"github.com/gin-gonic/gin"
+	"github.com/gmessias/api-go-money/database"
+	"github.com/gmessias/api-go-money/models"
+)
+
+func ReadAllCash(c *gin.Context) {
+	var cashList []models.Cash
+	database.DB.Find(&cashList)
+	c.JSON(200, cashList)
 }
 
-func GetIdCash(c *gin.Context) {
-	movimentacao := c.Params.ByName("movimentacao")
-	c.JSON(200, gin.H{
-		"movimentacao": movimentacao,
-	})
+func ReadCashPerId(c *gin.Context) {
+	var cash models.Cash
+	id := c.Params.ByName("id")
+	database.DB.First(&cash, id)
+
+	if cash.ID == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Status Not Found": "Cash Id:" + id + "not found.",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, cash)
+}
+
+func CreateCash(c *gin.Context) {
+	var cash models.Cash
+	if err := c.ShouldBindJSON(&cash); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	database.DB.Create(&cash)
+	c.JSON(http.StatusOK, cash)
 }

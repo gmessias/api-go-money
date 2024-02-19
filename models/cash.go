@@ -1,9 +1,12 @@
 package models
 
+import "gorm.io/gorm"
+
 type Cash struct {
-	Movimentacao string  `json:"movimentacao"`
-	Descricao    string  `json:"descricao"`
-	Valor        float64 `json:"valor"`
-	Categoria    string  `json:"categoria"`
-	Origem       string  `json:"origem"`
+	gorm.Model
+	Date        string   `json:"date"`
+	Description string   `json:"description"`
+	Value       float64  `json:"value"`
+	Category    Category `json:"category"`
+	Source      string   `json:"source"`
 }

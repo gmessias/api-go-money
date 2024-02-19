@@ -8,8 +8,9 @@ import (
 func HandleRequests() {
 	r := gin.Default()
 
-	r.GET("/cash", handle.GetAllCash)
-	r.GET("/:movimentacao", handle.GetIdCash)
+	r.GET("/cash", handle.ReadAllCash)
+	r.GET("/cash/:id", handle.ReadCashPerId)
+	r.POST("/cash", handle.CreateCash)
 
 	r.Run(":8080")
 }
