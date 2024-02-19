@@ -11,6 +11,8 @@ func HandleRequests() {
 	r.GET("/cash", handle.ReadAllCash)
 	r.GET("/cash/:id", handle.ReadCashPerId)
 	r.POST("/cash", handle.CreateCash)
+	r.DELETE("/cash/:id", handle.DeleteCash)
+	r.PATCH("/cash/:id", handle.UpdateCash)
 
 	r.Run(":8080")
 }

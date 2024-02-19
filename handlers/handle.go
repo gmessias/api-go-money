@@ -41,3 +41,28 @@ func CreateCash(c *gin.Context) {
 	database.DB.Create(&cash)
 	c.JSON(http.StatusOK, cash)
 }
+
+func DeleteCash(c *gin.Context) {
+	var cash models.Cash
+	id := c.Params.ByName("id")
+	database.DB.Delete(&cash, id)
+	c.JSON(http.StatusOK, gin.H{
+		"Success": "Cash deletead.",
+	})
+}
+
+func UpdateCash(c *gin.Context) {
+	var cash models.Cash
+	id := c.Params.ByName("id")
+	database.DB.First(&cash, id)
+
+	if err := c.ShouldBindJSON(&cash); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error(),
+		})
+		return
+	}
+
+	database.DB.Model(&cash).UpdateColumns(cash)
+	c.JSON(http.StatusOK, cash)
+}
