@@ -11,5 +11,5 @@ func HandleRequests() {
 	r.GET("/cash", handle.GetAllCash)
 	r.GET("/:movimentacao", handle.GetIdCash)
 
-	r.Run(":9001")
+	r.Run(":8080")
 }
