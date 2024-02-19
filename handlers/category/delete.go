@@ -1,4 +1,4 @@
-package handle_cash
+package handle_category
 
 import (
 	"net/http"
@@ -8,26 +8,26 @@ import (
 	"github.com/gmessias/api-go-money/models"
 )
 
-func DeleteCash(c *gin.Context) {
-	var cash models.Cash
+func DeleteCategory(c *gin.Context) {
+	var category models.Category
 	id := c.Params.ByName("id")
 
-	if err := database.DB.First(&cash, id).Error; err != nil {
+	if err := database.DB.First(&category, id).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
-			"error": "Cash not found.",
+			"error": "Category not found.",
 		})
 		return
 	}
 
-	result := database.DB.Delete(&cash, id)
+	result := database.DB.Delete(&category, id)
 	if result.Error != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Failed to delete cash",
+			"error": "Failed to delete category",
 		})
 		return
 	}
 
 	c.JSON(http.StatusNoContent, gin.H{
-		"success": "Cash deleted.",
+		"success": "Category deleted.",
 	})
 }
