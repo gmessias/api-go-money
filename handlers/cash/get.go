@@ -10,18 +10,33 @@ import (
 
 func ReadAllCash(c *gin.Context) {
 	var cashList []models.Cash
-	database.DB.Find(&cashList)
-	c.JSON(200, cashList)
+	result := database.DB.Find(&cashList)
+
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Internal server error.",
+		})
+		return
+	}
+
+	if len(cashList) == 0 {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "No cash records found",
+		})
+	}
+
+	c.JSON(http.StatusOK, cashList)
 }
 
 func ReadCashPerId(c *gin.Context) {
 	var cash models.Cash
-	id := c.Params.ByName("id")
-	database.DB.First(&cash, id)
+	id := c.Param("id")
 
-	if cash.ID == 0 {
+	result := database.DB.First(&cash, id)
+
+	if result.Error != nil || result.RowsAffected == 0 {
 		c.JSON(http.StatusNotFound, gin.H{
-			"Status Not Found": "Cash Id:" + id + "not found.",
+			"error": "Cash with ID " + id + " not found.",
 		})
 		return
 	}

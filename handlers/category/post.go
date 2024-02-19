@@ -10,6 +10,7 @@ import (
 
 func CreateCategory(c *gin.Context) {
 	var category models.Category
+
 	if err := c.ShouldBindJSON(&category); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -17,6 +18,13 @@ func CreateCategory(c *gin.Context) {
 		return
 	}
 
-	database.DB.Create(&category)
-	c.JSON(http.StatusOK, category)
+	result := database.DB.Create(&category)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Error creating category record.",
+		})
+		return
+	}
+
+	c.JSON(http.StatusCreated, category)
 }

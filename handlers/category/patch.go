@@ -10,8 +10,15 @@ import (
 
 func UpdateCategory(c *gin.Context) {
 	var category models.Category
-	id := c.Params.ByName("id")
-	database.DB.First(&category, id)
+	id := c.Param("id")
+
+	result := database.DB.First(&category, id)
+	if result.Error != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"error": "Category not found",
+		})
+		return
+	}
 
 	if err := c.ShouldBindJSON(&category); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -20,6 +27,12 @@ func UpdateCategory(c *gin.Context) {
 		return
 	}
 
-	database.DB.Model(&category).UpdateColumns(category)
+	if err := database.DB.Model(&category).UpdateColumns(category).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error": "Error updating category record",
+		})
+		return
+	}
+
 	c.JSON(http.StatusOK, category)
 }
