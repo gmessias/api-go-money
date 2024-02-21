@@ -2,15 +2,19 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-	cash_routes "github.com/gmessias/api-go-money/routes/cash"
-	category_routes "github.com/gmessias/api-go-money/routes/category"
+	cashroutes "github.com/gmessias/api-go-money/routes/cash"
+	categoryroutes "github.com/gmessias/api-go-money/routes/category"
+	"log"
 )
 
 func HandleRequests() {
 	r := gin.Default()
 
-	cash_routes.AllRoutes(r)
-	category_routes.AllRoutes(r)
+	cashroutes.AllRoutes(r)
+	categoryroutes.AllRoutes(r)
 
-	r.Run(":8080")
+	err := r.Run(":8080")
+	if err != nil {
+		log.Fatalf("Failed to start server: %v", err)
+	}
 }

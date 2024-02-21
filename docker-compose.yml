@@ -2,11 +2,11 @@ version: '3.8'
 services:
   moneydb:
     image: mysql:8.3
-    restart: on-failure:3
+    restart: 'unless-stopped'
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
-      - 3306:3306
+      - '3306:3306'
     volumes:
       - ./mysql-data:/var/lib/mysql

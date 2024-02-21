@@ -1,4 +1,4 @@
-package cmd
+package main
 
 import (
 	"github.com/gmessias/api-go-money/database"
