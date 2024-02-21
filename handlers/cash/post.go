@@ -6,23 +6,20 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gmessias/api-go-money/database"
 	"github.com/gmessias/api-go-money/models"
+	utils "github.com/gmessias/api-go-money/utils"
 )
 
 func CreateCash(c *gin.Context) {
 	var cash models.Cash
 
 	if err := c.ShouldBindJSON(&cash); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		utils.MessageBadRequest(c, err.Error())
 		return
 	}
 
 	result := database.DB.Create(&cash)
 	if result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Error creating cash record.",
-		})
+		utils.MessageInternalError(c, "error creating cash record.")
 		return
 	}
 

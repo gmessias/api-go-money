@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gmessias/api-go-money/database"
 	"github.com/gmessias/api-go-money/models"
+	utils "github.com/gmessias/api-go-money/utils"
 )
 
 func UpdateCash(c *gin.Context) {
@@ -14,23 +15,17 @@ func UpdateCash(c *gin.Context) {
 
 	result := database.DB.First(&cash, id)
 	if result.Error != nil {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": "Cash not found",
-		})
+		utils.MessageNotFound(c, "cash not found.")
 		return
 	}
 
 	if err := c.ShouldBindJSON(&cash); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+		utils.MessageBadRequest(c, err.Error())
 		return
 	}
 
 	if err := database.DB.Model(&cash).UpdateColumns(cash).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Error updating cash record",
-		})
+		utils.MessageInternalError(c, "error updating cash record.")
 		return
 	}
 
