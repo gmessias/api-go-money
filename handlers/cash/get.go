@@ -19,7 +19,7 @@ func ReadAllCash(c *gin.Context) {
 	}
 
 	if len(cashList) == 0 {
-		utils.MessageNotFound(c, "no cash records found")
+		utils.MessageNotFound(c, "no cash records found.")
 		return
 	}
 
