@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/gmessias/api-go-money/database"
 	"github.com/gmessias/api-go-money/models"
+	utils "github.com/gmessias/api-go-money/utils"
 )
 
 func ReadAllCategories(c *gin.Context) {
@@ -13,16 +14,13 @@ func ReadAllCategories(c *gin.Context) {
 	result := database.DB.Find(&categories)
 
 	if result.Error != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{
-			"error": "Internal server error.",
-		})
+		utils.MessageInternalError(c, "internal server error.")
 		return
 	}
 
 	if len(categories) == 0 {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": "No categories records found",
-		})
+		utils.MessageNotFound(c, "no categories records found.")
+		return
 	}
 
 	c.JSON(http.StatusOK, categories)
@@ -35,9 +33,7 @@ func ReadCategoryPerId(c *gin.Context) {
 	result := database.DB.First(&category, id)
 
 	if result.Error != nil || result.RowsAffected == 0 {
-		c.JSON(http.StatusNotFound, gin.H{
-			"error": "Category with ID " + id + " not found.",
-		})
+		utils.MessageNotFound(c, "category not found.")
 		return
 	}
 
