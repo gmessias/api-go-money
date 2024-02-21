@@ -5,12 +5,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gmessias/api-go-money/database"
-	"github.com/gmessias/api-go-money/models"
+	"github.com/gmessias/api-go-money/internal/core/domain"
 	utils "github.com/gmessias/api-go-money/utils"
 )
 
 func CreateCash(c *gin.Context) {
-	var cash models.Cash
+	var cash domain.Cash
 
 	if err := c.ShouldBindJSON(&cash); err != nil {
 		utils.MessageBadRequest(c, err.Error())

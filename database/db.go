@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/gmessias/api-go-money/models"
+	"github.com/gmessias/api-go-money/internal/core/domain"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -29,7 +29,7 @@ func Connect() {
 		log.Panicf("Unable to connect to MySQL database: %v", err)
 	}
 
-	autoMigrateErr := DB.AutoMigrate(&models.Cash{}, &models.Category{})
+	autoMigrateErr := DB.AutoMigrate(&domain.Cash{}, &domain.Category{})
 	if autoMigrateErr != nil {
 		log.Panicf("Unable to migrate database: %v", autoMigrateErr)
 		return

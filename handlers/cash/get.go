@@ -5,12 +5,12 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gmessias/api-go-money/database"
-	"github.com/gmessias/api-go-money/models"
+	"github.com/gmessias/api-go-money/internal/core/domain"
 	utils "github.com/gmessias/api-go-money/utils"
 )
 
 func ReadAllCash(c *gin.Context) {
-	var cashList []models.Cash
+	var cashList []domain.Cash
 	result := database.DB.Find(&cashList)
 
 	if result.Error != nil {
@@ -27,7 +27,7 @@ func ReadAllCash(c *gin.Context) {
 }
 
 func ReadCashPerId(c *gin.Context) {
-	var cash models.Cash
+	var cash domain.Cash
 	id := c.Param("id")
 
 	result := database.DB.First(&cash, id)
