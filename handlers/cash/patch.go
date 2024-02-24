@@ -1,19 +1,22 @@
 package handle_cash
 
 import (
+	"github.com/gmessias/api-go-money/internal/core/domain"
+	"github.com/gmessias/api-go-money/internal/core/ports"
+	"github.com/gmessias/api-go-money/repositories"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/gmessias/api-go-money/database"
-	"github.com/gmessias/api-go-money/models"
-	utils "github.com/gmessias/api-go-money/utils"
+	"github.com/gmessias/api-go-money/utils"
 )
 
 func UpdateCash(c *gin.Context) {
-	var cash models.Cash
+	var cash domain.Cash
 	id := c.Param("id")
 
-	result := database.DB.First(&cash, id)
+	var repo ports.CashRepository = &repositories.CashRepositoryImpl{}
+
+	result := repo.GetCashPerId(&cash, id)
 	if result.Error != nil {
 		utils.MessageNotFound(c, "cash not found.")
 		return
@@ -24,7 +27,7 @@ func UpdateCash(c *gin.Context) {
 		return
 	}
 
-	if err := database.DB.Model(&cash).UpdateColumns(cash).Error; err != nil {
+	if err := repo.UpdateCash(&cash).Error; err != nil {
 		utils.MessageInternalError(c, "error updating cash record.")
 		return
 	}

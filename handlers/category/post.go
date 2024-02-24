@@ -1,16 +1,16 @@
 package handle_category
 
 import (
+	"github.com/gmessias/api-go-money/internal/core/domain"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gmessias/api-go-money/database"
-	"github.com/gmessias/api-go-money/models"
-	utils "github.com/gmessias/api-go-money/utils"
+	"github.com/gmessias/api-go-money/utils"
 )
 
 func CreateCategory(c *gin.Context) {
-	var category models.Category
+	var category domain.Category
 
 	if err := c.ShouldBindJSON(&category); err != nil {
 		utils.MessageBadRequest(c, err.Error())

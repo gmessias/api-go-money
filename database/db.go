@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/gmessias/api-go-money/models"
+	"github.com/gmessias/api-go-money/internal/core/domain"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -21,6 +21,8 @@ func Connect() {
 	user := os.Getenv("MYSQL_USER")
 	password := os.Getenv("MYSQL_ROOT_PASSWORD")
 	dbname := os.Getenv("MYSQL_DATABASE")
+	fmt.Println(host, port, user, password, dbname)
+
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		user, password, host, port, dbname)
 
@@ -29,7 +31,7 @@ func Connect() {
 		log.Panicf("Unable to connect to MySQL database: %v", err)
 	}
 
-	autoMigrateErr := DB.AutoMigrate(&models.Cash{}, &models.Category{})
+	autoMigrateErr := DB.AutoMigrate(&domain.Cash{}, &domain.Category{})
 	if autoMigrateErr != nil {
 		log.Panicf("Unable to migrate database: %v", autoMigrateErr)
 		return

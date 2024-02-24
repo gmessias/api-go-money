@@ -4,8 +4,8 @@ services:
     image: mysql:8.3
     restart: 'unless-stopped'
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: Mysql2024!
+      MYSQL_DATABASE: moneydb
     ports:
       - '3306:3306'
     volumes:
