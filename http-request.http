@@ -1,0 +1,26 @@
+GET http://localhost:8080/category
+Accept: application/json
+
+###
+GET http://localhost:8080/category/1
+Accept: application/json
+
+###
+POST http://localhost:8080/category
+Content-Type: application/json
+
+{
+  "name": "Lazer"
+}
+
+###
+PATCH http://localhost:8080/category?id=2
+Content-Type: application/json
+
+{
+  "name": "Saúde"
+}
+
+###
+DELETE http://localhost:8080/category?id=2
+Accept: application/json

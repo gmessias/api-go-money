@@ -21,6 +21,8 @@ func Connect() {
 	user := os.Getenv("MYSQL_USER")
 	password := os.Getenv("MYSQL_ROOT_PASSWORD")
 	dbname := os.Getenv("MYSQL_DATABASE")
+	fmt.Println(host, port, user, password, dbname)
+
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		user, password, host, port, dbname)
 

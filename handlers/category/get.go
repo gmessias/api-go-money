@@ -1,16 +1,16 @@
 package handle_category
 
 import (
+	"github.com/gmessias/api-go-money/internal/core/domain"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gmessias/api-go-money/database"
-	"github.com/gmessias/api-go-money/models"
-	utils "github.com/gmessias/api-go-money/utils"
+	"github.com/gmessias/api-go-money/utils"
 )
 
 func ReadAllCategories(c *gin.Context) {
-	var categories []models.Category
+	var categories []domain.Category
 	result := database.DB.Find(&categories)
 
 	if result.Error != nil {
@@ -27,7 +27,7 @@ func ReadAllCategories(c *gin.Context) {
 }
 
 func ReadCategoryPerId(c *gin.Context) {
-	var category models.Category
+	var category domain.Category
 	id := c.Param("id")
 
 	result := database.DB.First(&category, id)

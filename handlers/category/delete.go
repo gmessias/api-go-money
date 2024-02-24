@@ -3,12 +3,12 @@ package handle_category
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/gmessias/api-go-money/database"
-	"github.com/gmessias/api-go-money/models"
-	utils "github.com/gmessias/api-go-money/utils"
+	"github.com/gmessias/api-go-money/internal/core/domain"
+	"github.com/gmessias/api-go-money/utils"
 )
 
 func DeleteCategory(c *gin.Context) {
-	var category models.Category
+	var category domain.Category
 	id := c.Params.ByName("id")
 
 	if err := database.DB.First(&category, id).Error; err != nil {

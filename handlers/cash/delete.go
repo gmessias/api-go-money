@@ -5,7 +5,7 @@ import (
 	"github.com/gmessias/api-go-money/internal/core/domain"
 	"github.com/gmessias/api-go-money/internal/core/ports"
 	"github.com/gmessias/api-go-money/repositories"
-	utils "github.com/gmessias/api-go-money/utils"
+	"github.com/gmessias/api-go-money/utils"
 )
 
 func DeleteCash(c *gin.Context) {
@@ -19,8 +19,7 @@ func DeleteCash(c *gin.Context) {
 		return
 	}
 
-	//result := database.DB.Delete(&cash, id)
-	result := repo.DeleteCash(cash, id)
+	result := repo.DeleteCash(&cash, id)
 
 	if result.Error != nil {
 		utils.MessageInternalError(c, "failed to delete cash.")
